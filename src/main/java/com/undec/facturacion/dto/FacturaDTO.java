@@ -1,5 +1,11 @@
 package com.undec.facturacion.dto;
 
+import com.undec.facturacion.model.Cliente;
+import com.undec.facturacion.model.Detalle;
+import com.undec.facturacion.model.Factura;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class FacturaDTO {
@@ -47,7 +53,19 @@ public class FacturaDTO {
 	public void setDetalles(List<DetalleDTO> detalles) {
 		this.detalles = detalles;
 	}
-    
-    
 
+
+	public Factura getFactura(FacturaDTO facturaDTO, Cliente cliente, List<Detalle> detalle) {
+		Factura factura = new Factura();
+
+		factura.setId(facturaDTO.getId());
+		factura.setClienteByClienteId(cliente);
+		factura.setDetallesById(detalle);
+		factura.setDescripcion(facturaDTO.getDescripcion());
+		factura.setFolio(facturaDTO.getFolio());
+		factura.setObservacion(facturaDTO.getObservacion());
+
+		return factura;
+
+	}
 }

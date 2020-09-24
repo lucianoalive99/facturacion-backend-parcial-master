@@ -2,11 +2,11 @@ package com.undec.facturacion.service;
 
 import com.undec.facturacion.dto.DetalleDTO;
 import com.undec.facturacion.dto.FacturaDTO;
+import com.undec.facturacion.model.Cliente;
 import com.undec.facturacion.model.Detalle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -40,6 +40,9 @@ public class FacturaService {
         Response response = new Response();
         try {
             // todo: completar
+            List<Detalle> detalleList = detalleRepository.findAll();
+            List<DetalleDTO> detalleDTOList = new DetalleDTO().getDetalleDTOList(detalleList);
+            response.setData(detalleDTOList);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -49,9 +52,13 @@ public class FacturaService {
     }
 
     public Response findOneById(String id) throws Exception {
+        int iid = Integer.parseInt(id);
         Response response = new Response();
         try {
             // todo: completar
+            Detalle detalle = detalleRepository.findById(iid).get();
+            DetalleDTO detalleDTO = new DetalleDTO().getDetalleDTO(detalle);
+            response.setData(detalleDTO);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -64,6 +71,12 @@ public class FacturaService {
         Response response = new Response();
         try {
             // todo: completar
+            Cliente cliente = clienteRepository.findById(facturaDTO.getId()).get();
+            List<Detalle> detalleList = detalleRepository.findAll();
+            Factura factura = new FacturaDTO().getFactura(facturaDTO,cliente, detalleList);
+            factura = facturaRepository.save(factura);
+            response.setData(factura.getId());
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();

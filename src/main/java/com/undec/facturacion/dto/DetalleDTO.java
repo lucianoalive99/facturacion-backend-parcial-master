@@ -1,5 +1,10 @@
 package com.undec.facturacion.dto;
 
+import com.undec.facturacion.model.Detalle;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class DetalleDTO {
 	
 	private Integer id;
@@ -24,7 +29,28 @@ public class DetalleDTO {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
-	
 
+
+	public List<DetalleDTO> getDetalleDTOList(List<Detalle> detalleList) {
+		List<DetalleDTO> detalleDTOList = new ArrayList<>();
+		for (Detalle detalle: detalleList) {
+			DetalleDTO detalleDTO = new DetalleDTO();
+
+			detalleDTO.setId(detalle.getId());
+			detalleDTO.setProductoId(detalle.getProductoByProductoId().getId());
+			detalleDTO.setCantidad(detalle.getCantidad());
+			detalleDTOList.add(detalleDTO);
+		}
+		return detalleDTOList;
+	}
+
+	public DetalleDTO getDetalleDTO(Detalle detalle) {
+			DetalleDTO detalleDTO = new DetalleDTO();
+
+			detalleDTO.setId(detalle.getId());
+			detalleDTO.setProductoId(detalle.getProductoByProductoId().getId());
+			detalleDTO.setCantidad(detalle.getCantidad());
+
+		return detalleDTO;
+	}
 }
